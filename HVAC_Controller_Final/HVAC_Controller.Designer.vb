@@ -22,6 +22,7 @@ Partial Class HVAC_Controller
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.HighTemp1Button = New System.Windows.Forms.Button()
         Me.HighTemp2Button = New System.Windows.Forms.Button()
         Me.CoolingTemp1Button = New System.Windows.Forms.Button()
@@ -29,6 +30,11 @@ Partial Class HVAC_Controller
         Me.HeaterSetpointTextBox = New System.Windows.Forms.TextBox()
         Me.CoolingSetpointTextBox = New System.Windows.Forms.TextBox()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.QYBoardSerialPort = New System.IO.Ports.SerialPort(Me.components)
+        Me.PortsComboBox = New System.Windows.Forms.ComboBox()
+        Me.ComButton = New System.Windows.Forms.Button()
+        Me.ClockTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.ClockLabel = New System.Windows.Forms.Label()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -93,11 +99,44 @@ Partial Class HVAC_Controller
         Me.PictureBox1.TabIndex = 6
         Me.PictureBox1.TabStop = False
         '
+        'PortsComboBox
+        '
+        Me.PortsComboBox.FormattingEnabled = True
+        Me.PortsComboBox.Location = New System.Drawing.Point(12, 12)
+        Me.PortsComboBox.Name = "PortsComboBox"
+        Me.PortsComboBox.Size = New System.Drawing.Size(166, 24)
+        Me.PortsComboBox.TabIndex = 7
+        '
+        'ComButton
+        '
+        Me.ComButton.Location = New System.Drawing.Point(662, 369)
+        Me.ComButton.Name = "ComButton"
+        Me.ComButton.Size = New System.Drawing.Size(126, 69)
+        Me.ComButton.TabIndex = 8
+        Me.ComButton.Text = "Com"
+        Me.ComButton.UseVisualStyleBackColor = True
+        '
+        'ClockTimer
+        '
+        Me.ClockTimer.Interval = 1000
+        '
+        'ClockLabel
+        '
+        Me.ClockLabel.AutoSize = True
+        Me.ClockLabel.Location = New System.Drawing.Point(716, 9)
+        Me.ClockLabel.Name = "ClockLabel"
+        Me.ClockLabel.Size = New System.Drawing.Size(41, 16)
+        Me.ClockLabel.TabIndex = 9
+        Me.ClockLabel.Text = "Clock"
+        '
         'HVAC_Controller
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.ClockLabel)
+        Me.Controls.Add(Me.ComButton)
+        Me.Controls.Add(Me.PortsComboBox)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.CoolingSetpointTextBox)
         Me.Controls.Add(Me.HeaterSetpointTextBox)
@@ -121,4 +160,9 @@ Partial Class HVAC_Controller
     Friend WithEvents HeaterSetpointTextBox As TextBox
     Friend WithEvents CoolingSetpointTextBox As TextBox
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents QYBoardSerialPort As IO.Ports.SerialPort
+    Friend WithEvents PortsComboBox As ComboBox
+    Friend WithEvents ComButton As Button
+    Friend WithEvents ClockTimer As Timer
+    Friend WithEvents ClockLabel As Label
 End Class
