@@ -173,7 +173,10 @@ Public Class HVAC_Controller
             FanPictureBox.BackColor = Color.Lime
             HVACPictureBox.BackColor = Color.Gray
         ElseIf dataDigital(0) = 239 Then
-
+            OffRadioButton.Checked = True
+            FanPictureBox.BackColor = Color.Gray
+            HVACPictureBox.BackColor = Color.Gray
+            AlertPictureBox.BackColor = Color.Red
         Else
             fanCycle = 0
             If systemTemp > CInt(CoolingSetpointTextBox.Text) + 2 And HeaterRadioButton.Checked Then
