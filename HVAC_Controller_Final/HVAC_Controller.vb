@@ -1,8 +1,24 @@
-﻿Imports System.IO.Ports
+﻿Imports System.Drawing.Text
+Imports System.IO.Ports
 
 Public Class HVAC_Controller
     Dim heaterSetpoint As Double = 75
     Dim coolingSetpoint As Double = 60
+    '--------------------------------------------CLOCK------------------------------------------------------------
+    Sub newFont()
+        Dim customFont As New PrivateFontCollection
+        customFont.AddFontFile("C:\Users\Rahi\OneDrive\Desktop\ISU\Robotics\5th Semester\Programing\HVAC_Controller_Final\RobotoSlab-VariableFont_wght.ttf")
+        Me.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
+        HeaterSetpointTextBox.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
+        CoolingSetpointTextBox.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
+        HighTemp1Button.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
+        HighTemp2Button.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
+        CoolingTemp1Button.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
+        CoolingTemp2Button.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
+        ClockLabel.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
+        PortsComboBox.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
+        ComButton.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
+    End Sub
     Sub SerialConnect(portName As String)
         QYBoardSerialPort.Close()
         QYBoardSerialPort.PortName = portName
@@ -60,6 +76,7 @@ Public Class HVAC_Controller
     End Sub
 
     Private Sub HVAC_Controller_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        newFont()
         HeaterSetpointTextBox.Text = $"{heaterSetpoint}"
         CoolingSetpointTextBox.Text = $"{coolingSetpoint}"
         GetPorts()
@@ -74,4 +91,5 @@ Public Class HVAC_Controller
     Private Sub ClockTimer_Tick(sender As Object, e As EventArgs) Handles ClockTimer.Tick
         ClockLabel.Text = DateTime.Now.ToString("hh:mm:ss")
     End Sub
+
 End Class
