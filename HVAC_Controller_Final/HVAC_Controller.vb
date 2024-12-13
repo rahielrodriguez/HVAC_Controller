@@ -5,6 +5,11 @@ Imports System.Windows.Forms.ComponentModel.Com2Interop
 Imports System.Runtime.InteropServices
 Imports System.IO
 
+'Rahiel Rodriguez
+'RCET 3371
+'Fall 2024
+'HVAC Final
+'https://github.com/rahielrodriguez/HVAC_Controller.git
 Public Class HVAC_Controller
     Dim heater_Off_Image As New Bitmap(My.Resources.heater_off)
     Dim heater_On_Image As New Bitmap(My.Resources.heater_on)
@@ -24,11 +29,13 @@ Public Class HVAC_Controller
     Dim settingsList As New List(Of String)
     '------------------------------------------------------------GUI Configuration---------------------------------------------------------------------------
     Sub newFont()
+        'Takes file from resources changes the font of the program in general
         Dim customFont As New PrivateFontCollection
         customFont.AddFontFile($"C:\Users\Rahi\OneDrive\Desktop\ISU\Robotics\5th Semester\Programing\HVAC_Controller_Final\HVAC_Controller_Final\Resources\RobotoSlab-Medium.ttf")
         Me.Font = New Drawing.Font(customFont.Families(0), 10, FontStyle.Regular)
     End Sub
     Public Shared Function ResizeImage(ByVal InputBitmap As Bitmap, width As Integer, height As Integer) As Bitmap
+        'takes images to transform them into bitmaps to change its size
         Return New Bitmap(InputBitmap, New Size(width, height)) 'takes the soccer ball image and changes its size to make it fit correctly in the picture box
     End Function
     '-----------------------------------------------------------Serial Com Configuration------------------------------------------------------------------------
@@ -41,6 +48,7 @@ Public Class HVAC_Controller
     Sub GetPorts()
         'add all available ports to the port combobox
         PortsComboBox.Items.Clear()
+        'If port 3 or 4 are detected, do not use them
         For Each s As String In SerialPort.GetPortNames()
             If s = "COM3" Then
 
@@ -55,16 +63,19 @@ Public Class HVAC_Controller
     '----------------------------------------------------------------QY@ BOARD Functions----------------------------------------------------------------
     Sub Qy_ReadDigitalInputs()
         Dim data(0) As Byte
+        'Command to read digital inputs from the QY@ Board
         data(0) = &B110000
         QYBoardSerialPort.Write(data, 0, 1)
     End Sub
     Sub Qy_ReadAnalogInPutA1()
         Dim data(0) As Byte
+        'Command to analog input 1 from the QY@ Board
         data(0) = &B1010001
         QYBoardSerialPort.Write(data, 0, 1)
     End Sub
     Sub Qy_ReadAnalogInPutA2()
         Dim data(0) As Byte
+        'Command to analog input 2 from the QY@ Board
         data(0) = &B1010010
         QYBoardSerialPort.Write(data, 0, 1)
     End Sub
@@ -142,51 +153,15 @@ Public Class HVAC_Controller
         g.Dispose()
     End Sub
     Private Sub ComButton_Click(sender As Object, e As EventArgs) Handles ComButton.Click
-        'GetComPorts()
         GetPorts()
-    End Sub
-
-    Private Sub HighTemp1Button_Click(sender As Object, e As EventArgs)
-        If heaterSetpoint <= 90 Then
-            heaterSetpoint += 0.5
-            HeaterSetpointTextBox.Text = $"{heaterSetpoint}"
-        Else
-            MsgBox("Setpoints can go from 50 to 90 degrees. Please, select a valid value within range.", MsgBoxStyle.Exclamation, "Setpoint Error")
-        End If
-    End Sub
-
-    Private Sub HighTemp2Button_Click(sender As Object, e As EventArgs)
-        If heaterSetpoint >= 50 Then
-            heaterSetpoint -= 0.5
-            HeaterSetpointTextBox.Text = $"{heaterSetpoint}"
-        Else
-            MsgBox("Setpoints can go from 50 to 90 degrees. Please, select a valid value within range.", MsgBoxStyle.Exclamation, "Setpoint Error")
-        End If
-    End Sub
-
-    Private Sub CoolingTemp1Button_Click(sender As Object, e As EventArgs)
-        If coolingSetpoint <= 90 Then
-            coolingSetpoint += 0.5
-            CoolingSetpointTextBox.Text = $"{coolingSetpoint}"
-        Else
-            MsgBox("Setpoints can go from 50 to 90 degrees. Please, select a valid value within range.", MsgBoxStyle.Exclamation, "Setpoint Error")
-        End If
-    End Sub
-
-    Private Sub CoolingTemp2Button_Click(sender As Object, e As EventArgs)
-        If coolingSetpoint >= 50 Then
-            coolingSetpoint -= 0.5
-            CoolingSetpointTextBox.Text = $"{coolingSetpoint}"
-        Else
-            MsgBox("Setpoints can go from 50 to 90 degrees. Please, select a valid value within range.", MsgBoxStyle.Exclamation, "Setpoint Error")
-        End If
     End Sub
 
     Private Sub HVAC_Controller_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim temp() As String
         Dim settings As String
+        'Changes the font of the program
         newFont()
-
+        'Brings the previous settings in for start up
         Try
             FileOpen(1, "..\..\..\HVACsettings.txt", OpenMode.Input)
         Catch ex As Exception
@@ -205,6 +180,7 @@ Public Class HVAC_Controller
         coolingSetpoint = CInt(temp(2))
         FileClose()
 
+        'Resizes images for future usage
         heater_Off_Image = ResizeImage(heater_Off_Image, HeaterPictureBox.Width, HeaterPictureBox.Height)
         heater_On_Image = ResizeImage(heater_On_Image, HeaterPictureBox.Width, HeaterPictureBox.Height)
         ac_Off_image = ResizeImage(ac_Off_image, ACPictureBox.Width, ACPictureBox.Height)
@@ -223,12 +199,12 @@ Public Class HVAC_Controller
         CoolingSetpointTextBox.Text = $"{coolingSetpoint}"
 
         GetPorts()
-
+        'Sets Clock and starts all timers
         ClockLabel.Text = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss")
         ClockTimer.Start()
         TempTimer.Start()
         DrawTimer.Start()
-        PreasureTimer.Start()
+        PressureTimer.Start()
     End Sub
 
     Private Sub PortsComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles PortsComboBox.SelectedIndexChanged
@@ -263,7 +239,8 @@ Public Class HVAC_Controller
         ReDim dataDigital(QYBoardSerialPort.BytesToRead)
         QYBoardSerialPort.Read(dataDigital, 0, QYBoardSerialPort.BytesToRead)
 
-        If dataDigital(0) = 254 Then
+        'Handles all digital input changes functions
+        If dataDigital(0) = 254 Then 'Error Button Pressed
             OffRadioButton.Checked = True
             FanPictureBox.BackColor = Color.Transparent
             FanPictureBox.BackgroundImage = Nothing
@@ -271,7 +248,7 @@ Public Class HVAC_Controller
             ACPictureBox.BackgroundImage = ac_Off_image
             AlertPictureBox.BackColor = Color.Red
             pressureAlert = False
-        ElseIf dataDigital(0) = 253 Then
+        ElseIf dataDigital(0) = 253 Then 'Heater Enabled Button
             pressureAlert = False
             If fanCycle = 0 Then
                 FanPictureBox.BackgroundImage = fan_Image
@@ -283,7 +260,7 @@ Public Class HVAC_Controller
             overwriteHeater = 1
             overwriteAC = 0
             FanTimer.Start()
-        ElseIf dataDigital(0) = 251 Then
+        ElseIf dataDigital(0) = 251 Then 'A/C Enabled Button
             pressureAlert = False
             If fanCycle = 0 Then
                 FanPictureBox.BackgroundImage = fan_Image
@@ -295,14 +272,14 @@ Public Class HVAC_Controller
             overwriteAC = 1
             overwriteHeater = 0
             FanTimer.Start()
-        ElseIf dataDigital(0) = 247 Then
+        ElseIf dataDigital(0) = 247 Then 'Fan only button
             pressureAlert = False
             FanPictureBox.BackgroundImage = fan_Image
             FanPictureBox.BackColor = Color.Transparent
             HeaterPictureBox.BackgroundImage = heater_Off_Image
             ACPictureBox.BackgroundImage = ac_Off_image
             OffRadioButton.Checked = True
-        ElseIf dataDigital(0) = 239 Then
+        ElseIf dataDigital(0) = 239 Then 'Pressure Sensor Button
             pressureAlert = True
         Else
             pressureAlert = False
@@ -326,7 +303,7 @@ Public Class HVAC_Controller
 
     Private Sub FanTimer_Tick(sender As Object, e As EventArgs) Handles FanTimer.Tick
 
-        If overwriteHeater = 1 Then
+        If overwriteHeater = 1 Then 'if fan is was already displayed and covered, handles displaying it again
             fanCycle = 1
             FanPictureBox.BackColor = Color.Transparent
             FanPictureBox.BackgroundImage = Nothing
@@ -351,7 +328,7 @@ Public Class HVAC_Controller
                 AlertPictureBox.BackColor = Color.Transparent
             End If
         Else
-            If systemTemp > CInt(CoolingSetpointTextBox.Text) + 2 And HeaterRadioButton.Checked Then
+            If systemTemp > CInt(CoolingSetpointTextBox.Text) + 2 And HeaterRadioButton.Checked Then 'Handles automatic heater and A/C activation
                 FanPictureBox.BackColor = Color.Transparent
                 FanPictureBox.BackgroundImage = Nothing
                 HeaterPictureBox.BackgroundImage = heater_Off_Image
@@ -370,12 +347,6 @@ Public Class HVAC_Controller
         overwriteAC = 0
         FanTimer.Stop()
     End Sub
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs)
-        DrawHeaterTriangleUp()
-        DrawHeaterTriangleDown()
-    End Sub
-
     Private Sub HeaterUpPictureBox_Click(sender As Object, e As EventArgs) Handles HeaterUpPictureBox.Click
         If heaterSetpoint <= 90 And heaterSetpoint < coolingSetpoint Then
             heaterSetpoint += 0.5
@@ -392,7 +363,7 @@ Public Class HVAC_Controller
         DrawACTriangleDown()
         DrawTimer.Stop()
     End Sub
-
+    'Next 4 subs changes Heater and A/C Setpoints and do not let setpoints to exceed max and min temps
     Private Sub HeaterDownPictureBox_Click(sender As Object, e As EventArgs) Handles HeaterDownPictureBox.Click
         If heaterSetpoint >= 50 And heaterSetpoint < coolingSetpoint Then
             heaterSetpoint -= 0.5
@@ -420,7 +391,8 @@ Public Class HVAC_Controller
         End If
     End Sub
 
-    Private Sub PreasureTimer_Tick(sender As Object, e As EventArgs) Handles PreasureTimer.Tick
+    Private Sub PressureTimer_Tick(sender As Object, e As EventArgs) Handles PressureTimer.Tick
+        'If the timer ticks and the Pressure Button is being pressed, produces an "error"
         If pressureAlert = True Then
             OffRadioButton.Checked = True
             FanPictureBox.BackColor = Color.Transparent
@@ -434,6 +406,7 @@ Public Class HVAC_Controller
     End Sub
 
     Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
+        'Saves current Settings in file
         Try
             FileOpen(1, "..\..\..\HVACsettings.txt", OpenMode.Output)
             PrintLine(1, $"{PortsComboBox.Text},{HeaterSetpointTextBox.Text},{CoolingSetpointTextBox.Text}")

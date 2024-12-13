@@ -48,7 +48,7 @@ Partial Class HVAC_Controller
         Me.HeaterSetpointLabel = New System.Windows.Forms.Label()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-        Me.PreasureTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.PressureTimer = New System.Windows.Forms.Timer(Me.components)
         Me.SaveButton = New System.Windows.Forms.Button()
         Me.LogoPictureBox = New System.Windows.Forms.PictureBox()
         Me.FanPictureBox = New System.Windows.Forms.PictureBox()
@@ -317,9 +317,9 @@ Partial Class HVAC_Controller
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Room Temperature"
         '
-        'PreasureTimer
+        'PressureTimer
         '
-        Me.PreasureTimer.Interval = 10000
+        Me.PressureTimer.Interval = 10000
         '
         'SaveButton
         '
@@ -465,7 +465,7 @@ Partial Class HVAC_Controller
     Friend WithEvents HeaterSetpointLabel As Label
     Friend WithEvents GroupBox2 As GroupBox
     Friend WithEvents GroupBox3 As GroupBox
-    Friend WithEvents PreasureTimer As Timer
+    Friend WithEvents PressureTimer As Timer
     Friend WithEvents SaveButton As Button
     Friend WithEvents LogoPictureBox As PictureBox
 End Class
