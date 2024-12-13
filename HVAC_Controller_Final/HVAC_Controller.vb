@@ -3,6 +3,7 @@ Imports System.IO.Ports
 Imports System.Threading.Thread
 Imports System.Windows.Forms.ComponentModel.Com2Interop
 Imports System.Runtime.InteropServices
+Imports System.IO
 
 Public Class HVAC_Controller
     Dim heater_Off_Image As New Bitmap(My.Resources.heater_off)
@@ -12,27 +13,20 @@ Public Class HVAC_Controller
     Dim fan_Image As New Bitmap(My.Resources.fan)
     Dim service_Alert_Image As New Bitmap(My.Resources.service_alert)
     Dim logo As New Bitmap(My.Resources.logo)
-    Dim heaterSetpoint As Double = 70
-    Dim coolingSetpoint As Double = 80
+    Dim heaterSetpoint As Double
+    Dim coolingSetpoint As Double
     Dim roomTemp As Integer
     Dim systemTemp As Integer
     Dim overwriteHeater As Integer = 0
     Dim overwriteAC As Integer = 0
     Dim fanCycle As Integer = 0
     Dim pressureAlert As Boolean
+    Dim settingsList As New List(Of String)
     '------------------------------------------------------------GUI Configuration---------------------------------------------------------------------------
     Sub newFont()
         Dim customFont As New PrivateFontCollection
         customFont.AddFontFile($"C:\Users\Rahi\OneDrive\Desktop\ISU\Robotics\5th Semester\Programing\HVAC_Controller_Final\HVAC_Controller_Final\Resources\RobotoSlab-Medium.ttf")
-        Me.Font = New Font(customFont.Families(0), 10, FontStyle.Regular)
-        HeaterSetpointTextBox.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
-        CoolingSetpointTextBox.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
-        ClockLabel.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
-        PortsComboBox.Font = New Font(customFont.Families(0), 16, FontStyle.Regular)
-        ComButton.Font = New Font(customFont.Families(0), 14, FontStyle.Regular)
-        SaveButton.Font = New Font(customFont.Families(0), 14, FontStyle.Regular)
-        SystemTempLabel.Font = New Font(customFont.Families(0), 54, FontStyle.Regular)
-        RoomTempLabel.Font = New Font(customFont.Families(0), 54, FontStyle.Regular)
+        Me.Font = New Drawing.Font(customFont.Families(0), 10, FontStyle.Regular)
     End Sub
     Public Shared Function ResizeImage(ByVal InputBitmap As Bitmap, width As Integer, height As Integer) As Bitmap
         Return New Bitmap(InputBitmap, New Size(width, height)) 'takes the soccer ball image and changes its size to make it fit correctly in the picture box
@@ -189,7 +183,27 @@ Public Class HVAC_Controller
     End Sub
 
     Private Sub HVAC_Controller_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim temp() As String
+        Dim settings As String
         newFont()
+
+        Try
+            FileOpen(1, "..\..\..\HVACsettings.txt", OpenMode.Input)
+        Catch ex As Exception
+
+        End Try
+
+        Do Until EOF(1)
+            settings = LineInput(1)
+            Me.settingsList.Add($"{settings}")
+        Loop
+
+        For Each value In settingsList
+            temp = Split(settings, ",")
+        Next
+        heaterSetpoint = CInt(temp(1))
+        coolingSetpoint = CInt(temp(2))
+        FileClose()
 
         heater_Off_Image = ResizeImage(heater_Off_Image, HeaterPictureBox.Width, HeaterPictureBox.Height)
         heater_On_Image = ResizeImage(heater_On_Image, HeaterPictureBox.Width, HeaterPictureBox.Height)
@@ -210,7 +224,7 @@ Public Class HVAC_Controller
 
         GetPorts()
 
-        ClockLabel.Text = DateTime.Now.ToString("hh:mm:ss")
+        ClockLabel.Text = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss")
         ClockTimer.Start()
         TempTimer.Start()
         DrawTimer.Start()
@@ -222,7 +236,7 @@ Public Class HVAC_Controller
     End Sub
     '--------------------------------------------CLOCK------------------------------------------------------------
     Private Sub ClockTimer_Tick(sender As Object, e As EventArgs) Handles ClockTimer.Tick
-        ClockLabel.Text = DateTime.Now.ToString("hh:mm:ss")
+        ClockLabel.Text = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss")
     End Sub
 
     Private Sub TempTimer_Tick(sender As Object, e As EventArgs) Handles TempTimer.Tick
@@ -421,12 +435,13 @@ Public Class HVAC_Controller
 
     Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
         Try
-            FileOpen(1, "..\..\HVACsettings.txt", OpenMode.Append)
-            PrintLine(1, $"{PortsComboBox.Text}, {HeaterSetpointTextBox.Text} , {CoolingSetpointTextBox.Text} , {DateTime.Now.ToString("yyMMddhhmm")}")
+            FileOpen(1, "..\..\..\HVACsettings.txt", OpenMode.Output)
+            PrintLine(1, $"{PortsComboBox.Text},{HeaterSetpointTextBox.Text},{CoolingSetpointTextBox.Text}")
             FileClose()
         Catch ex As Exception
 
         End Try
 
     End Sub
+
 End Class
