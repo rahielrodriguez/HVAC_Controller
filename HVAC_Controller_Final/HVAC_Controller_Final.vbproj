@@ -119,7 +119,43 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
+    <None Include="Resources\RobotoSlab-Black.ttf" />
+    <None Include="Resources\RobotoSlab-Bold.ttf" />
+    <None Include="Resources\RobotoSlab-ExtraBold.ttf" />
+    <None Include="Resources\RobotoSlab-ExtraLight.ttf" />
+    <None Include="Resources\RobotoSlab-Light.ttf" />
+    <None Include="Resources\RobotoSlab-Medium.ttf" />
+    <None Include="Resources\RobotoSlab-Regular.ttf" />
+    <None Include="Resources\RobotoSlab-SemiBold.ttf" />
+    <None Include="Resources\RobotoSlab-Thin.ttf" />
     <None Include="Resources\RobotoSlab-VariableFont_wght.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\air-conditioner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\heater.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\heater %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\air-conditioner %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\air-conditioning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gear2020.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\air.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gear2020-removebg-preview.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

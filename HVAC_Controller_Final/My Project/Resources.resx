@@ -118,7 +118,28 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="RobotoSlab_VariableFont_wght" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RobotoSlab-VariableFont_wght.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="air_conditioner_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\air-conditioner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="air_conditioner_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\air-conditioner (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\air.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="heater_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\heater (1).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="heater_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\heater.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Gear2020-removebg-preview.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RobotoSlab_Medium" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RobotoSlab-Medium.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="service_alert" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\air-conditioning.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
